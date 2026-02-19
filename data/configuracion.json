@@ -1,0 +1,76 @@
+{
+  "restaurante": {
+    "nombre": "SISTACNA",
+    "nombreCompleto": "Restaurante SISTACNA",
+    "eslogan": "Sabor y tradicion en cada plato",
+    "descripcion": "En SISTACNA fusionamos la riqueza de la gastronomia peruana con tecnicas modernas para ofrecerte una experiencia culinaria unica. Cada plato es preparado con ingredientes frescos seleccionados y el amor por nuestra cocina.",
+    "fundacion": 2018,
+    "telefono": "+51 910-000-000",
+    "whatsapp": "51910000000",
+    "email": "info@sistacna.com",
+    "web": "www.sistacna.com"
+  },
+  "ubicacion": {
+    "direccion": "Av. Principal 123",
+    "ciudad": "Tacna",
+    "departamento": "Tacna",
+    "pais": "Peru",
+    "codigoPostal": "23001",
+    "coordenadas": {
+      "lat": -18.0146,
+      "lng": -70.2536
+    },
+    "googleMapsEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3794.5!2d-70.2536!3d-18.0146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTjCsDAwJzUyLjYiUyA3MMKwMTUnMTMuMCJX!5e0!3m2!1ses!2spe!4v1234567890"
+  },
+  "horarios": {
+    "lunes": { "almuerzo": "11:00 - 15:00", "cena": "18:00 - 23:00" },
+    "martes": { "almuerzo": "11:00 - 15:00", "cena": "18:00 - 23:00" },
+    "miercoles": { "almuerzo": "11:00 - 15:00", "cena": "18:00 - 23:00" },
+    "jueves": { "almuerzo": "11:00 - 15:00", "cena": "18:00 - 23:00" },
+    "viernes": { "almuerzo": "11:00 - 15:00", "cena": "18:00 - 00:00" },
+    "sabado": { "almuerzo": "11:00 - 16:00", "cena": "18:00 - 00:00" },
+    "domingo": { "almuerzo": "11:00 - 16:00", "cena": "cerrado" }
+  },
+  "redesSociales": {
+    "facebook": "https://facebook.com/sistacna",
+    "instagram": "https://instagram.com/sistacna",
+    "tiktok": "https://tiktok.com/@sistacna"
+  },
+  "facturacion": {
+    "ruc": "20123456789",
+    "razonSocial": "SISTACNA RESTAURANTE S.A.C.",
+    "serieBoleta": "B001",
+    "igv": 0.18,
+    "moneda": "PEN",
+    "simboloMoneda": "S/."
+  },
+  "mesas": [
+    { "id": 1, "nombre": "Mesa 1", "capacidad": 2, "zona": "interior" },
+    { "id": 2, "nombre": "Mesa 2", "capacidad": 4, "zona": "interior" },
+    { "id": 3, "nombre": "Mesa 3", "capacidad": 4, "zona": "interior" },
+    { "id": 4, "nombre": "Mesa 4", "capacidad": 6, "zona": "interior" },
+    { "id": 5, "nombre": "Mesa 5", "capacidad": 2, "zona": "terraza" },
+    { "id": 6, "nombre": "Mesa 6", "capacidad": 4, "zona": "terraza" },
+    { "id": 7, "nombre": "Mesa 7", "capacidad": 6, "zona": "terraza" },
+    { "id": 8, "nombre": "Mesa 8", "capacidad": 8, "zona": "privado" },
+    { "id": 9, "nombre": "Mesa 9", "capacidad": 4, "zona": "barra" },
+    { "id": 10, "nombre": "Mesa 10", "capacidad": 10, "zona": "privado" }
+  ],
+  "nosotros": {
+    "historia": "Fundado en 2018, SISTACNA nace del sueno de llevar la autentica cocina peruana a Tacna. Con anos de experiencia y pasion por la gastronomia, nuestro equipo de chefs combina recetas tradicionales con toques modernos para crear platos que deleitan a cada comensal.",
+    "mision": "Ofrecer a nuestros clientes una experiencia gastronomica excepcional, combinando ingredientes frescos de la mas alta calidad con recetas que honran la tradicion culinaria peruana.",
+    "vision": "Ser reconocidos como el restaurante lider en Tacna, referente de calidad gastronomica, innovacion y servicio al cliente en la region sur del Peru."
+  },
+  "galeria": {
+    "instalaciones": [
+      { "titulo": "Salon Principal", "descripcion": "Amplio salon con capacidad para 80 personas" },
+      { "titulo": "Terraza", "descripcion": "Espacio al aire libre con vista a los jardines" },
+      { "titulo": "Salon Privado", "descripcion": "Salon reservado para eventos y reuniones" },
+      { "titulo": "Barra", "descripcion": "Barra de bar con cocteleria peruana" }
+    ],
+    "ambiente": [
+      { "titulo": "Decoracion", "descripcion": "Ambiente acogedor con detalles peruanos" },
+      { "titulo": "Iluminacion", "descripcion": "Iluminacion calida para una experiencia unica" }
+    ]
+  }
+}

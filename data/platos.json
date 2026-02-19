@@ -1,0 +1,526 @@
+{
+  "categorias": [
+    { "id": "entradas", "nombre": "Entradas", "icono": "🥗" },
+    { "id": "sopas", "nombre": "Sopas y Caldos", "icono": "🍲" },
+    { "id": "pescados", "nombre": "Pescados y Mariscos", "icono": "🐟" },
+    { "id": "carnes", "nombre": "Carnes", "icono": "🥩" },
+    { "id": "pollos", "nombre": "Pollos", "icono": "🍗" },
+    { "id": "parrillas", "nombre": "Parrillas", "icono": "🔥" },
+    { "id": "pastas", "nombre": "Pastas", "icono": "🍝" },
+    { "id": "bebidas", "nombre": "Bebidas", "icono": "🥤" },
+    { "id": "postres", "nombre": "Postres", "icono": "🍮" }
+  ],
+
+  "guarniciones": [
+    "Papas fritas",
+    "Arroz blanco",
+    "Arroz con verduras",
+    "Ensalada mixta",
+    "Zarza criolla",
+    "Pure de papa",
+    "Yuca frita",
+    "Choclo desgranado"
+  ],
+
+  "mozos": [
+    { "id": 1, "nombre": "Carlos Mendoza", "telefono": "910000001" },
+    { "id": 2, "nombre": "Juan Quispe", "telefono": "910000002" },
+    { "id": 3, "nombre": "Maria Lopez", "telefono": "910000003" },
+    { "id": 4, "nombre": "Ana Torres", "telefono": "910000004" }
+  ],
+
+  "platos": [
+    {
+      "id": "ceviche-clasico",
+      "nombre": "Ceviche Clasico",
+      "categoria": "pescados",
+      "precio": 45.00,
+      "descripcion": "Ceviche fresco con limon y leche de tigre, cebollita roja, choclo y camote",
+      "imagen": "imagenes/platos/ceviche-clasico.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular", "recomendado"],
+      "opciones": [
+        {
+          "id": "tamano",
+          "nombre": "Tamano",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Regular (400g)", "precio": 0 },
+            { "nombre": "Especial (600g)", "precio": 10 }
+          ]
+        },
+        {
+          "id": "nivel-picante",
+          "nombre": "Nivel de Picante",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Suave", "precio": 0 },
+            { "nombre": "Medio", "precio": 0 },
+            { "nombre": "Picante", "precio": 0 }
+          ]
+        }
+      ],
+      "guarniciones": true,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "ceviche-mixto",
+      "nombre": "Ceviche Mixto",
+      "categoria": "pescados",
+      "precio": 55.00,
+      "descripcion": "Ceviche de pescado con mariscos, pulpo, calamar y conchas negras",
+      "imagen": "imagenes/platos/ceviche-mixto.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular"],
+      "opciones": [
+        {
+          "id": "tamano",
+          "nombre": "Tamano",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Regular", "precio": 0 },
+            { "nombre": "Especial", "precio": 15 }
+          ]
+        }
+      ],
+      "guarniciones": true,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "tiradito-salmon",
+      "nombre": "Tiradito de Salmon",
+      "categoria": "pescados",
+      "precio": 48.00,
+      "descripcion": "Finas laminas de salmon en salsa de aji amarillo y maracuya",
+      "imagen": "imagenes/platos/tiradito-salmon.jpg",
+      "estado": "disponible",
+      "etiquetas": ["nuevo"],
+      "opciones": [],
+      "guarniciones": false,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "jalea-mixta",
+      "nombre": "Jalea Mixta",
+      "categoria": "pescados",
+      "precio": 58.00,
+      "descripcion": "Fritura crocante de pescado, calamar, langostinos con zarza criolla",
+      "imagen": "imagenes/platos/jalea-mixta.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular"],
+      "opciones": [
+        {
+          "id": "tamano",
+          "nombre": "Tamano",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Personal", "precio": 0 },
+            { "nombre": "Para compartir", "precio": 20 }
+          ]
+        }
+      ],
+      "guarniciones": true,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "causa-limena",
+      "nombre": "Causa Limena",
+      "categoria": "entradas",
+      "precio": 28.00,
+      "descripcion": "Causa de papa amarilla con relleno de pollo, palta y mayonesa",
+      "imagen": "imagenes/platos/causa-limena.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular"],
+      "opciones": [
+        {
+          "id": "relleno",
+          "nombre": "Tipo de Relleno",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Pollo", "precio": 0 },
+            { "nombre": "Atun", "precio": 3 },
+            { "nombre": "Langostinos", "precio": 8 }
+          ]
+        }
+      ],
+      "guarniciones": false,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "papa-huancaina",
+      "nombre": "Papa a la Huancaina",
+      "categoria": "entradas",
+      "precio": 22.00,
+      "descripcion": "Papas cocidas banadas en cremosa salsa huancaina con huevo y aceituna",
+      "imagen": "imagenes/platos/papa-huancaina.jpg",
+      "estado": "disponible",
+      "etiquetas": [],
+      "opciones": [],
+      "guarniciones": false,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "anticuchos",
+      "nombre": "Anticuchos de Corazon",
+      "categoria": "entradas",
+      "precio": 30.00,
+      "descripcion": "Brochetas de corazon de res marinadas en aji panca con choclo y papa dorada",
+      "imagen": "imagenes/platos/anticuchos.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular", "recomendado"],
+      "opciones": [
+        {
+          "id": "cantidad-palitos",
+          "nombre": "Cantidad de Palitos",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "2 palitos", "precio": 0 },
+            { "nombre": "4 palitos", "precio": 18 }
+          ]
+        }
+      ],
+      "guarniciones": true,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "tequeños-queso",
+      "nombre": "Tequenos de Queso",
+      "categoria": "entradas",
+      "precio": 18.00,
+      "descripcion": "Crujientes palitos de masa rellenos de queso con salsa de guacamole",
+      "imagen": "imagenes/platos/tequenos.jpg",
+      "estado": "disponible",
+      "etiquetas": ["2x1"],
+      "opciones": [],
+      "guarniciones": false,
+      "tieneObservaciones": false
+    },
+    {
+      "id": "sopa-criolla",
+      "nombre": "Sopa Criolla",
+      "categoria": "sopas",
+      "precio": 25.00,
+      "descripcion": "Sopa con fideos, carne, huevo, leche y especias al estilo criollo",
+      "imagen": "imagenes/platos/sopa-criolla.jpg",
+      "estado": "disponible",
+      "etiquetas": [],
+      "opciones": [],
+      "guarniciones": false,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "chupe-camarones",
+      "nombre": "Chupe de Camarones",
+      "categoria": "sopas",
+      "precio": 38.00,
+      "descripcion": "Sopa espesa de camarones con papa, choclo, queso y huacatay",
+      "imagen": "imagenes/platos/chupe-camarones.jpg",
+      "estado": "disponible",
+      "etiquetas": ["recomendado"],
+      "opciones": [],
+      "guarniciones": false,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "lomo-saltado",
+      "nombre": "Lomo Saltado",
+      "categoria": "carnes",
+      "precio": 42.00,
+      "descripcion": "Lomo fino salteado con cebolla, tomate y aji amarillo, papas fritas y arroz",
+      "imagen": "imagenes/platos/lomo-saltado.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular", "recomendado"],
+      "opciones": [
+        {
+          "id": "tipo-carne",
+          "nombre": "Tipo de Corte",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Lomo fino", "precio": 0 },
+            { "nombre": "Res premium", "precio": 8 }
+          ]
+        }
+      ],
+      "guarniciones": true,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "aji-gallina",
+      "nombre": "Aji de Gallina",
+      "categoria": "pollos",
+      "precio": 32.00,
+      "descripcion": "Pollo desmenuzado en salsa cremosa de aji amarillo con arroz y papa",
+      "imagen": "imagenes/platos/aji-gallina.jpg",
+      "estado": "disponible",
+      "etiquetas": [],
+      "opciones": [],
+      "guarniciones": true,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "pollo-brasa",
+      "nombre": "Pollo a la Brasa",
+      "categoria": "pollos",
+      "precio": 55.00,
+      "descripcion": "Pollo entero marinado y cocinado a la brasa, con papas fritas y ensalada",
+      "imagen": "imagenes/platos/pollo-brasa.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular"],
+      "opciones": [
+        {
+          "id": "porcion",
+          "nombre": "Porcion",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "1/4 pollo", "precio": -20 },
+            { "nombre": "1/2 pollo", "precio": -10 },
+            { "nombre": "Pollo entero", "precio": 0 }
+          ]
+        }
+      ],
+      "guarniciones": true,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "arroz-mariscos",
+      "nombre": "Arroz con Mariscos",
+      "categoria": "pescados",
+      "precio": 48.00,
+      "descripcion": "Arroz cremoso con langostinos, pulpo, calamar, conchas y mejillones",
+      "imagen": "imagenes/platos/arroz-mariscos.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular"],
+      "opciones": [
+        {
+          "id": "tamano",
+          "nombre": "Tamano",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Personal", "precio": 0 },
+            { "nombre": "Para dos", "precio": 22 }
+          ]
+        }
+      ],
+      "guarniciones": false,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "seco-cordero",
+      "nombre": "Seco de Cordero",
+      "categoria": "carnes",
+      "precio": 40.00,
+      "descripcion": "Estofado de cordero en salsa de culantro con frejoles y arroz",
+      "imagen": "imagenes/platos/seco-cordero.jpg",
+      "estado": "disponible",
+      "etiquetas": [],
+      "opciones": [],
+      "guarniciones": true,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "tacu-tacu",
+      "nombre": "Tacu Tacu con Lomo",
+      "categoria": "carnes",
+      "precio": 45.00,
+      "descripcion": "Tacu tacu de frejoles crujiente con lomo fino en salsa de ostras",
+      "imagen": "imagenes/platos/tacu-tacu.jpg",
+      "estado": "disponible",
+      "etiquetas": ["recomendado"],
+      "opciones": [
+        {
+          "id": "proteina",
+          "nombre": "Proteina",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Lomo fino", "precio": 0 },
+            { "nombre": "Langostinos", "precio": 10 },
+            { "nombre": "Apanado", "precio": 0 }
+          ]
+        }
+      ],
+      "guarniciones": false,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "parrilla-familiar",
+      "nombre": "Parrilla Familiar",
+      "categoria": "parrillas",
+      "precio": 120.00,
+      "descripcion": "Variedad de carnes a la parrilla: res, cerdo, pollo y chorizos con guarniciones",
+      "imagen": "imagenes/platos/parrilla-familiar.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular"],
+      "opciones": [
+        {
+          "id": "coccion",
+          "nombre": "Punto de Coccion",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Termino medio", "precio": 0 },
+            { "nombre": "Tres cuartos", "precio": 0 },
+            { "nombre": "Bien cocido", "precio": 0 }
+          ]
+        }
+      ],
+      "guarniciones": true,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "fetuccini-alfredo",
+      "nombre": "Fetuccini Alfredo",
+      "categoria": "pastas",
+      "precio": 32.00,
+      "descripcion": "Pasta fetuccini en cremosa salsa blanca con pollo y champiñones",
+      "imagen": "imagenes/platos/fetuccini-alfredo.jpg",
+      "estado": "disponible",
+      "etiquetas": [],
+      "opciones": [
+        {
+          "id": "proteina",
+          "nombre": "Proteina",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Pollo", "precio": 0 },
+            { "nombre": "Langostinos", "precio": 10 },
+            { "nombre": "Solo verduras", "precio": 0 }
+          ]
+        }
+      ],
+      "guarniciones": false,
+      "tieneObservaciones": true
+    },
+    {
+      "id": "chicha-morada",
+      "nombre": "Chicha Morada",
+      "categoria": "bebidas",
+      "precio": 8.00,
+      "descripcion": "Bebida tradicional de maiz morado con piña, canela y clavo",
+      "imagen": "imagenes/platos/chicha-morada.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular"],
+      "opciones": [
+        {
+          "id": "tamano",
+          "nombre": "Tamano",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Vaso personal", "precio": 0 },
+            { "nombre": "Jarra 1L", "precio": 12 }
+          ]
+        }
+      ],
+      "guarniciones": false,
+      "tieneObservaciones": false
+    },
+    {
+      "id": "limonada",
+      "nombre": "Limonada Natural",
+      "categoria": "bebidas",
+      "precio": 7.00,
+      "descripcion": "Limonada natural recien exprimida con hierba luisa",
+      "imagen": "imagenes/platos/limonada.jpg",
+      "estado": "disponible",
+      "etiquetas": [],
+      "opciones": [
+        {
+          "id": "tamano",
+          "nombre": "Tamano",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Vaso personal", "precio": 0 },
+            { "nombre": "Jarra 1L", "precio": 10 }
+          ]
+        }
+      ],
+      "guarniciones": false,
+      "tieneObservaciones": false
+    },
+    {
+      "id": "pisco-sour",
+      "nombre": "Pisco Sour",
+      "categoria": "bebidas",
+      "precio": 22.00,
+      "descripcion": "Coctel peruano clasico con pisco quebranta, limon, jarabe y clara de huevo",
+      "imagen": "imagenes/platos/pisco-sour.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular", "recomendado"],
+      "opciones": [],
+      "guarniciones": false,
+      "tieneObservaciones": false
+    },
+    {
+      "id": "gaseosa",
+      "nombre": "Gaseosa Personal",
+      "categoria": "bebidas",
+      "precio": 5.00,
+      "descripcion": "Coca-Cola, Inca Kola, Sprite o Fanta personal 400ml",
+      "imagen": "imagenes/platos/gaseosa.jpg",
+      "estado": "disponible",
+      "etiquetas": [],
+      "opciones": [
+        {
+          "id": "sabor",
+          "nombre": "Sabor",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "Coca-Cola", "precio": 0 },
+            { "nombre": "Inca Kola", "precio": 0 },
+            { "nombre": "Sprite", "precio": 0 },
+            { "nombre": "Fanta", "precio": 0 }
+          ]
+        }
+      ],
+      "guarniciones": false,
+      "tieneObservaciones": false
+    },
+    {
+      "id": "suspiro-limena",
+      "nombre": "Suspiro a la Limena",
+      "categoria": "postres",
+      "precio": 16.00,
+      "descripcion": "Postre de manjar blanco con merengue de oporto y canela",
+      "imagen": "imagenes/platos/suspiro-limena.jpg",
+      "estado": "disponible",
+      "etiquetas": ["popular"],
+      "opciones": [],
+      "guarniciones": false,
+      "tieneObservaciones": false
+    },
+    {
+      "id": "picarones",
+      "nombre": "Picarones",
+      "categoria": "postres",
+      "precio": 15.00,
+      "descripcion": "Donuts peruanos de camote y zapallo con miel de chancaca",
+      "imagen": "imagenes/platos/picarones.jpg",
+      "estado": "disponible",
+      "etiquetas": [],
+      "opciones": [
+        {
+          "id": "cantidad",
+          "nombre": "Cantidad",
+          "tipo": "radio",
+          "valores": [
+            { "nombre": "6 unidades", "precio": 0 },
+            { "nombre": "12 unidades", "precio": 10 }
+          ]
+        }
+      ],
+      "guarniciones": false,
+      "tieneObservaciones": false
+    },
+    {
+      "id": "tres-leches",
+      "nombre": "Torta Tres Leches",
+      "categoria": "postres",
+      "precio": 18.00,
+      "descripcion": "Bizcocho suave empapado en tres tipos de leche con crema chantilly",
+      "imagen": "imagenes/platos/tres-leches.jpg",
+      "estado": "disponible",
+      "etiquetas": ["nuevo"],
+      "opciones": [],
+      "guarniciones": false,
+      "tieneObservaciones": false
+    }
+  ]
+}
