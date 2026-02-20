@@ -74,11 +74,12 @@ function inicializarFirebase() {
     db = firebase.firestore();
     auth = firebase.auth();
 
-    db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
-
-    return { app, db, auth };
+    // Retorna Promise: espera a que persistence este lista antes de continuar
+    return db.enablePersistence({ synchronizeTabs: true })
+      .then(() => ({ app, db, auth }))
+      .catch(() => ({ app, db, auth }));
   }
-  return null;
+  return Promise.resolve(null);
 }
 
 function obtenerPermisos(rol) {
