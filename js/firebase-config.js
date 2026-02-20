@@ -1,10 +1,10 @@
 const CONFIGURACION_FIREBASE = {
-  apiKey: "AIzaSyDemoKey_ReemplazarConCredenciales",
-  authDomain: "sistacna-restaurante.firebaseapp.com",
-  projectId: "sistacna-restaurante",
-  storageBucket: "sistacna-restaurante.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:0000000000000000"
+  apiKey: "AIzaSyCfIUzoIyV5bxOFNXwnUWXALR72tM8Md5I",
+  authDomain: "systacna.firebaseapp.com",
+  projectId: "systacna",
+  storageBucket: "systacna.firebasestorage.app",
+  messagingSenderId: "657070305055",
+  appId: "1:657070305055:web:14a4c5c978cde9d5748a2a"
 };
 
 const DATOS_RESTAURANTE = {

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Panel de Administracion - SISTACNA Restaurante">
+  <meta name="theme-color" content="#0052B4">
+  <title>Admin | SISTACNA</title>
+  <link rel="icon" type="image/png" href="imagenes/logos/favicon.png">
+  <link rel="stylesheet" href="css/utils.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="login-pantalla" id="pantallaLogin">
+    <div class="login-fondo"></div>
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="logo-icono logo-grande">S</div>
+        <h1>SISTACNA</h1>
+        <p>Panel de Administracion</p>
+      </div>
+      <form class="login-form" id="formLogin" onsubmit="return false;">
+        <div class="formulario-grupo">
+          <label for="loginEmail">Email</label>
+          <div class="input-icono">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" class="campo-entrada" id="loginEmail" placeholder="admin@sistacna.com" required>
+          </div>
+        </div>
+        <div class="formulario-grupo">
+          <label for="loginPassword">Contrasena</label>
+          <div class="input-icono">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <input type="password" class="campo-entrada" id="loginPassword" placeholder="Tu contrasena" required>
+            <button type="button" class="toggle-password" id="togglePassword" onclick="toggleMostrarPassword()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="login-recordar">
+          <label><input type="checkbox" id="recordarSesion"> Recordar sesion</label>
+        </div>
+        <button type="submit" class="btn-primario login-btn" id="btnLogin" onclick="iniciarSesion()">
+          <span id="loginBtnTexto">Acceder</span>
+          <div class="spinner oculto" id="loginSpinner"></div>
+        </button>
+        <p class="login-error oculto" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel-admin oculto" id="panelAdmin">
+    <header class="admin-header">
+      <div class="contenedor admin-header-contenido">
+        <a href="index.html" class="encabezado-logo">
+          <div class="logo-icono">S</div>
+          <span class="logo-texto">SISTACNA</span>
+        </a>
+        <div class="admin-header-info">
+          <div class="admin-usuario-info">
+            <span class="admin-usuario-nombre" id="adminNombre">Admin</span>
+            <span class="badge badge-preparando" id="adminRol">admin</span>
+          </div>
+          <button class="btn-peligro btn-pequeno" onclick="cerrarSesion()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Salir
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="admin-tabs" id="navPestanas">
+      <div class="contenedor admin-tabs-contenido">
+        <button class="admin-tab activo" data-tab="comandas" onclick="cambiarTab('comandas')">Comandas</button>
+        <button class="admin-tab" data-tab="caja" onclick="cambiarTab('caja')">Caja</button>
+        <button class="admin-tab" data-tab="carta" onclick="cambiarTab('carta')">Gestion Carta</button>
+        <button class="admin-tab" data-tab="usuarios" onclick="cambiarTab('usuarios')">Usuarios</button>
+        <button class="admin-tab" data-tab="auditoria" onclick="cambiarTab('auditoria')">Auditoria</button>
+      </div>
+    </nav>
+
+    <main class="admin-contenido">
+      <div class="contenedor">
+
+        <div class="tab-panel activo" id="tabComandas">
+          <div class="stats-grid">
+            <div class="stat-card stat-pendiente">
+              <div class="stat-numero" id="statPendientes">0</div>
+              <div class="stat-label">Pendientes</div>
+            </div>
+            <div class="stat-card stat-preparando">
+              <div class="stat-numero" id="statPreparando">0</div>
+              <div class="stat-label">En Preparacion</div>
+            </div>
+            <div class="stat-card stat-listo">
+              <div class="stat-numero" id="statListos">0</div>
+              <div class="stat-label">Listos</div>
+            </div>
+            <div class="stat-card stat-entregado">
+              <div class="stat-numero" id="statEntregados">0</div>
+              <div class="stat-label">Entregados Hoy</div>
+            </div>
+          </div>
+
+          <div class="admin-filtros">
+            <select class="campo-entrada" id="filtroEstadoComanda" onchange="filtrarComandas()">
+              <option value="todos">Todos los estados</option>
+              <option value="pendiente">Pendientes</option>
+              <option value="preparando">En Preparacion</option>
+              <option value="listo">Listos</option>
+              <option value="entregado">Entregados</option>
+            </select>
+            <input type="text" class="campo-entrada" id="filtroMesaComanda" placeholder="Filtrar por mesa..." oninput="filtrarComandas()">
+            <button class="btn-primario" onclick="abrirModalNuevaComanda()">+ Nueva Comanda</button>
+          </div>
+
+          <div class="comandas-grid" id="comandasGrid"></div>
+        </div>
+
+        <div class="tab-panel" id="tabCaja">
+          <div class="stats-grid">
+            <div class="stat-card stat-ventas">
+              <div class="stat-numero" id="statVentas">S/.0.00</div>
+              <div class="stat-label">Ventas del Dia</div>
+            </div>
+            <div class="stat-card stat-boletas">
+              <div class="stat-numero" id="statBoletas">0</div>
+              <div class="stat-label">Boletas Emitidas</div>
+            </div>
+            <div class="stat-card stat-ticket">
+              <div class="stat-numero" id="statTicketPromedio">S/.0.00</div>
+              <div class="stat-label">Ticket Promedio</div>
+            </div>
+            <div class="stat-card stat-mesas">
+              <div class="stat-numero" id="statMesasAtendidas">0</div>
+              <div class="stat-label">Mesas Atendidas</div>
+            </div>
+          </div>
+
+          <h3 class="seccion-titulo">Comandas Listas para Cobrar</h3>
+          <div id="comandasParaCobrar"></div>
+
+          <h3 class="seccion-titulo mt-24">Historial de Boletas</h3>
+          <div id="historialBoletas"></div>
+
+          <div class="caja-cierre mt-24">
+            <h3 class="seccion-titulo">Cierre de Caja</h3>
+            <div id="resumenCierre"></div>
+            <div class="formulario-grupo">
+              <label>Observaciones del cierre</label>
+              <textarea class="campo-entrada" id="txtCierreObservaciones" rows="2" placeholder="Novedades del dia..."></textarea>
+            </div>
+            <button class="btn-peligro" onclick="cerrarCaja()">Cerrar Caja del Dia</button>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tabCarta">
+          <div class="stats-grid">
+            <div class="stat-card stat-disponibles">
+              <div class="stat-numero" id="statDisponibles">0</div>
+              <div class="stat-label">Disponibles</div>
+            </div>
+            <div class="stat-card stat-agotados-card">
+              <div class="stat-numero" id="statAgotados">0</div>
+              <div class="stat-label">Agotados</div>
+            </div>
+            <div class="stat-card stat-promos">
+              <div class="stat-numero" id="statPromos">0</div>
+              <div class="stat-label">Promociones</div>
+            </div>
+            <div class="stat-card stat-total-platos">
+              <div class="stat-numero" id="statTotalPlatos">0</div>
+              <div class="stat-label">Total Platos</div>
+            </div>
+          </div>
+
+          <div class="admin-filtros">
+            <select class="campo-entrada" id="filtroCategoriaPlato" onchange="filtrarPlatosCarta()">
+              <option value="todos">Todas las categorias</option>
+            </select>
+            <input type="text" class="campo-entrada" id="filtroBusquedaPlato" placeholder="Buscar plato..." oninput="filtrarPlatosCarta()">
+          </div>
+
+          <div class="carta-grid" id="cartaGrid"></div>
+        </div>
+
+        <div class="tab-panel" id="tabUsuarios">
+          <div class="admin-filtros">
+            <h3 style="flex:1;">Gestion de Usuarios</h3>
+            <button class="btn-primario" onclick="abrirModalNuevoUsuario()">+ Agregar Usuario</button>
+          </div>
+          <div id="tablaUsuarios"></div>
+        </div>
+
+        <div class="tab-panel" id="tabAuditoria">
+          <div class="admin-filtros">
+            <input type="text" class="campo-entrada" id="filtroUsuarioAuditoria" placeholder="Filtrar por usuario..." oninput="filtrarAuditoria()">
+            <input type="date" class="campo-entrada" id="filtroFechaDesde" onchange="filtrarAuditoria()">
+            <input type="date" class="campo-entrada" id="filtroFechaHasta" onchange="filtrarAuditoria()">
+            <select class="campo-entrada" id="filtroTipoAuditoria" onchange="filtrarAuditoria()">
+              <option value="todos">Todas las acciones</option>
+              <option value="COMANDA">Comandas</option>
+              <option value="BOLETA">Boletas</option>
+              <option value="USUARIO">Usuarios</option>
+              <option value="ACCESO">Acceso</option>
+            </select>
+            <button class="btn-secundario btn-pequeno" onclick="exportarAuditoria()">Exportar</button>
+          </div>
+          <div id="tablaAuditoria"></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="modalNuevaComanda">
+    <div class="modal">
+      <div class="modal-encabezado">
+        <h3>Nueva Comanda Manual</h3>
+        <button class="modal-cerrar" onclick="cerrarModal('modalNuevaComanda')">&times;</button>
+      </div>
+      <div class="modal-cuerpo">
+        <div class="formulario-grupo">
+          <label>Mesa</label>
+          <select class="campo-entrada" id="nuevaComandaMesa">
+            <option value="">Seleccionar mesa</option>
+          </select>
+        </div>
+        <div class="formulario-grupo">
+          <label>Mozo</label>
+          <select class="campo-entrada" id="nuevaComandaMozo">
+            <option value="">Seleccionar mozo</option>
+          </select>
+        </div>
+        <div class="formulario-grupo">
+          <label>Nombre del Cliente</label>
+          <input type="text" class="campo-entrada" id="nuevaComandaCliente" placeholder="Nombre del cliente">
+        </div>
+        <div class="formulario-grupo">
+          <label>Buscar platos para agregar</label>
+          <input type="text" class="campo-entrada" id="nuevaComandaBusqueda" placeholder="Buscar plato..." oninput="buscarPlatosComanda()">
+        </div>
+        <div id="nuevaComandaPlatosResultados"></div>
+        <h4 class="mt-16 mb-8">Platos seleccionados:</h4>
+        <div id="nuevaComandaItemsSeleccionados"></div>
+        <div class="formulario-grupo mt-16">
+          <label>Observaciones</label>
+          <textarea class="campo-entrada" id="nuevaComandaObservaciones" rows="2" placeholder="Observaciones..." maxlength="200"></textarea>
+        </div>
+      </div>
+      <div class="modal-pie">
+        <button class="btn-secundario" onclick="cerrarModal('modalNuevaComanda')">Cancelar</button>
+        <button class="btn-exito" onclick="crearComandaManual()">Crear Comanda</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalBoleta">
+    <div class="modal" style="max-width:650px;">
+      <div class="modal-encabezado">
+        <h3>Generar Boleta</h3>
+        <button class="modal-cerrar" onclick="cerrarModal('modalBoleta')">&times;</button>
+      </div>
+      <div class="modal-cuerpo" id="modalBoletaContenido"></div>
+      <div class="modal-pie">
+        <button class="btn-secundario" onclick="cerrarModal('modalBoleta')">Cancelar</button>
+        <button class="btn-exito" onclick="emitirBoleta()">Emitir Boleta</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalEditarPlato">
+    <div class="modal">
+      <div class="modal-encabezado">
+        <h3>Editar Estado del Plato</h3>
+        <button class="modal-cerrar" onclick="cerrarModal('modalEditarPlato')">&times;</button>
+      </div>
+      <div class="modal-cuerpo" id="modalEditarPlatoContenido"></div>
+      <div class="modal-pie">
+        <button class="btn-secundario" onclick="cerrarModal('modalEditarPlato')">Cancelar</button>
+        <button class="btn-exito" onclick="guardarEstadoPlato()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalNuevoUsuario">
+    <div class="modal">
+      <div class="modal-encabezado">
+        <h3>Agregar Usuario</h3>
+        <button class="modal-cerrar" onclick="cerrarModal('modalNuevoUsuario')">&times;</button>
+      </div>
+      <div class="modal-cuerpo">
+        <div class="formulario-grupo">
+          <label>Email</label>
+          <input type="email" class="campo-entrada" id="nuevoUsuarioEmail" placeholder="correo@ejemplo.com">
+        </div>
+        <div class="formulario-grupo">
+          <label>Nombre Completo</label>
+          <input type="text" class="campo-entrada" id="nuevoUsuarioNombre" placeholder="Nombre completo">
+        </div>
+        <div class="formulario-grupo">
+          <label>Rol</label>
+          <select class="campo-entrada" id="nuevoUsuarioRol">
+            <option value="mozo">Mozo</option>
+            <option value="cajero">Cajero</option>
+            <option value="admin">Admin</option>
+            <option value="super_admin">Super Admin</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-pie">
+        <button class="btn-secundario" onclick="cerrarModal('modalNuevoUsuario')">Cancelar</button>
+        <button class="btn-exito" onclick="crearUsuario()">Crear Usuario</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
