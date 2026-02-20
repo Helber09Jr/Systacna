@@ -92,6 +92,10 @@ function iniciarSesion() {
         mensaje = 'Email o contrasena incorrectos';
       } else if (error.code === 'auth/too-many-requests') {
         mensaje = 'Demasiados intentos. Intenta mas tarde';
+      } else if (error.message && error.message.includes('offline')) {
+        mensaje = 'Sin conexion a la base de datos. Verifica tu internet e intenta de nuevo';
+      } else if (error.code === 'permission-denied') {
+        mensaje = 'Sin permisos. Verifica las reglas de Firestore';
       } else if (error.message) {
         mensaje = error.message;
       }
@@ -1484,16 +1488,16 @@ function detenerListeners() {
 // INICIALIZACION
 // ============================================================================
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Inicializar Firebase
-  const firebaseResult = inicializarFirebase();
+document.addEventListener('DOMContentLoaded', async () => {
+  // Inicializar Firebase (esperar a que persistence este lista)
+  const firebaseResult = await inicializarFirebase();
 
   if (!firebaseResult) {
     Notificaciones.error('Error al cargar Firebase. Verifica tu conexion.');
     return;
   }
 
-  // Escuchar cambios de autenticacion
+  // Escuchar cambios de autenticacion (Firebase ya esta listo)
   auth.onAuthStateChanged(user => {
     if (user && !usuarioActual) {
       // Sesion activa, recuperar datos del usuario
