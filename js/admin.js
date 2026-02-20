@@ -46,16 +46,31 @@ function iniciarSesion() {
 
   auth.signInWithEmailAndPassword(email, password)
     .then(credencial => {
-      return db.collection('usuarios').doc(credencial.user.uid).get();
+      return db.collection('usuarios').doc(credencial.user.uid).get()
+        .then(doc => ({ doc, credencial }));
     })
-    .then(doc => {
+    .then(({ doc, credencial }) => {
       if (!doc.exists) {
-        throw new Error('Usuario no registrado en el sistema');
+        // Auto-registro: primer login crea documento de usuario como super_admin
+        const nuevoUsuario = {
+          email: credencial.user.email,
+          nombre: credencial.user.email.split('@')[0],
+          rol: 'super_admin',
+          activo: true,
+          fechaCreacion: firebase.firestore.FieldValue.serverTimestamp(),
+          autoRegistrado: true
+        };
+        return db.collection('usuarios').doc(credencial.user.uid)
+          .set(nuevoUsuario)
+          .then(() => nuevoUsuario);
       }
       const datos = doc.data();
       if (datos.activo === false) {
         throw new Error('Tu cuenta esta desactivada');
       }
+      return datos;
+    })
+    .then(datos => {
       usuarioActual = {
         uid: auth.currentUser.uid,
         email: auth.currentUser.email,
@@ -1497,6 +1512,25 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
               auth.signOut();
             }
+          } else {
+            // Auto-registro para sesion persistida sin documento
+            const nuevoUsuario = {
+              email: user.email,
+              nombre: user.email.split('@')[0],
+              rol: 'super_admin',
+              activo: true,
+              fechaCreacion: firebase.firestore.FieldValue.serverTimestamp(),
+              autoRegistrado: true
+            };
+            db.collection('usuarios').doc(user.uid).set(nuevoUsuario).then(() => {
+              usuarioActual = {
+                uid: user.uid,
+                email: user.email,
+                nombre: nuevoUsuario.nombre,
+                rol: nuevoUsuario.rol
+              };
+              mostrarPanel();
+            });
           }
         })
         .catch(() => {});
