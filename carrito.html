@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Carrito de pedidos - SISTACNA Restaurante">
+  <meta name="theme-color" content="#0052B4">
+  <title>Carrito | SISTACNA</title>
+  <link rel="manifest" href="PWA/manifest.json">
+  <link rel="icon" type="image/png" href="imagenes/logos/favicon.png">
+  <link rel="stylesheet" href="css/utils.css">
+  <link rel="stylesheet" href="css/carrito.css">
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="contenedor encabezado-contenido">
+      <a href="index.html" class="encabezado-logo">
+        <div class="logo-icono">S</div>
+        <span class="logo-texto">SISTACNA</span>
+      </a>
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-enlace">Inicio</a>
+        <a href="carta.html" class="nav-enlace">Carta</a>
+        <a href="carrito.html" class="nav-enlace activo">Carrito</a>
+        <a href="admin.html" class="nav-enlace">Admin</a>
+      </nav>
+      <div class="encabezado-acciones">
+        <button class="btn-hamburguesa" id="btnHamburguesa" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="seccion-carrito">
+    <div class="contenedor">
+      <div class="carrito-encabezado">
+        <h1>Resumen de tu Pedido</h1>
+        <a href="carta.html" class="btn-secundario btn-pequeno">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5,12 12,5 19,12"/></svg>
+          Agregar mas platos
+        </a>
+      </div>
+
+      <div id="carritoContenido">
+        <div class="carrito-tabla-contenedor" id="carritoTabla"></div>
+
+        <div class="carrito-resumen-grid" id="carritoResumenGrid">
+          <div class="carrito-totales" id="carritoTotales"></div>
+
+          <div class="carrito-formulario">
+            <h3>Datos del Pedido</h3>
+            <div class="formulario-grupo">
+              <label for="inputNombreMesa">Mesa o Nombre del Cliente *</label>
+              <input type="text" class="campo-entrada" id="inputNombreMesa" placeholder="Ej: Mesa 5 o Juan Perez" required>
+            </div>
+            <div class="formulario-grupo">
+              <label for="selectMozo">Mozo</label>
+              <select class="campo-entrada" id="selectMozo">
+                <option value="">Seleccionar mozo</option>
+              </select>
+            </div>
+            <div class="formulario-grupo">
+              <label for="txtObservaciones">Observaciones</label>
+              <textarea class="campo-entrada" id="txtObservaciones" placeholder="Alguna indicacion especial para la cocina..." maxlength="200" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="carrito-acciones" id="carritoAcciones">
+          <button class="btn-exito" id="btnEnviarPedido" onclick="enviarPedido()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9 22,2"/></svg>
+            Enviar Pedido
+          </button>
+          <button class="btn-secundario" onclick="window.location.href='carta.html'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+            Editar Carrito
+          </button>
+          <button class="btn-peligro btn-pequeno" onclick="cancelarPedido()">Cancelar Pedido</button>
+        </div>
+      </div>
+
+      <div class="carrito-vacio-pagina oculto" id="carritoVacio">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <h2>Tu carrito esta vacio</h2>
+        <p>Agrega platos desde nuestra carta para realizar tu pedido</p>
+        <a href="carta.html" class="btn-primario" style="margin-top:20px;">Ver Carta</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor pie-contenido">
+      <p class="pie-copyright">&copy; 2024 SISTACNA. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="js/utils.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/carrito.js"></script>
+</body>
+</html>
