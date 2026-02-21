@@ -47,7 +47,20 @@ function iniciarSesion() {
   auth.signInWithEmailAndPassword(email, password)
     .then(credencial => {
       return db.collection('usuarios').doc(credencial.user.uid).get()
-        .then(doc => ({ doc, credencial }));
+        .then(doc => {
+          if (doc.exists) return { doc, credencial };
+          // Fallback: buscar por campo email (usuario creado desde admin con doc ID diferente)
+          return db.collection('usuarios').where('email', '==', credencial.user.email).limit(1).get()
+            .then(snapshot => {
+              if (!snapshot.empty) {
+                const docExistente = snapshot.docs[0];
+                // Migrar documento al UID correcto
+                return db.collection('usuarios').doc(credencial.user.uid).set(docExistente.data())
+                  .then(() => ({ doc: { exists: true, data: () => docExistente.data() }, credencial }));
+              }
+              return { doc, credencial };
+            });
+        });
     })
     .then(({ doc, credencial }) => {
       if (!doc.exists) {
@@ -1123,7 +1136,7 @@ function guardarEstadoPlato() {
   })
   .then(() => {
     Notificaciones.exito(`${plato.nombre} actualizado`);
-    registrarAccion('COMANDA', `Plato "${plato.nombre}" editado: estado=${nuevoEstado}, precio=${Formatos.formatearMoneda(nuevoPrecio)}`);
+    registrarAccion('CARTA', `Plato "${plato.nombre}" editado: estado=${nuevoEstado}, precio=${Formatos.formatearMoneda(nuevoPrecio)}`);
     renderizarCartaAdmin();
     cerrarModal('modalEditarPlato');
     platoEditandoId = null;
@@ -1138,7 +1151,8 @@ function toggleEstadoPlato(platoId) {
   const plato = datosMenu.platos.find(p => p.id === platoId);
   if (!plato) return;
 
-  const nuevoEstado = plato.estado === 'disponible' ? 'agotado' : 'disponible';
+  const estadoAnterior = plato.estado;
+  const nuevoEstado = estadoAnterior === 'disponible' ? 'agotado' : 'disponible';
   plato.estado = nuevoEstado;
 
   db.collection('carta_cambios').add({
@@ -1151,11 +1165,11 @@ function toggleEstadoPlato(platoId) {
   })
   .then(() => {
     Notificaciones.exito(`${plato.nombre}: ${nuevoEstado === 'disponible' ? 'disponible' : 'agotado'}`);
-    registrarAccion('COMANDA', `Plato "${plato.nombre}" marcado como ${nuevoEstado}`);
+    registrarAccion('CARTA', `Plato "${plato.nombre}" marcado como ${nuevoEstado}`);
     renderizarCartaAdmin();
   })
   .catch(err => {
-    plato.estado = plato.estado === 'disponible' ? 'agotado' : 'disponible';
+    plato.estado = estadoAnterior;
     Notificaciones.error('Error al cambiar estado');
     console.error(err);
   });
