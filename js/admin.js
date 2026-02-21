@@ -84,6 +84,12 @@ function iniciarSesion() {
       return datos;
     })
     .then(datos => {
+      // Si es mozo, redirigir al panel de pedidos
+      if (datos.rol === 'mozo') {
+        window.location.href = 'mozo.html';
+        return;
+      }
+
       usuarioActual = {
         uid: auth.currentUser.uid,
         email: auth.currentUser.email,
@@ -1520,6 +1526,11 @@ document.addEventListener('DOMContentLoaded', () => {
           if (doc.exists) {
             const datos = doc.data();
             if (datos.activo !== false) {
+              // Si es mozo, redirigir al panel de pedidos
+              if (datos.rol === 'mozo') {
+                window.location.href = 'mozo.html';
+                return;
+              }
               usuarioActual = {
                 uid: user.uid,
                 email: user.email,
