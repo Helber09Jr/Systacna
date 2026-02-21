@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Panel de Mozo - SISTACNA Restaurante">
+  <meta name="theme-color" content="#0052B4">
+  <title>Mozo | SISTACNA</title>
+  <link rel="manifest" href="PWA/manifest.json">
+  <link rel="icon" type="image/png" href="imagenes/logos/favicon.png">
+  <link rel="stylesheet" href="css/utils.css">
+  <link rel="stylesheet" href="css/mozo.css">
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div class="mozo-login" id="pantallaLogin">
+    <div class="mozo-login-fondo"></div>
+    <div class="mozo-login-card">
+      <div class="mozo-login-logo">
+        <div class="logo-icono logo-grande">S</div>
+        <h1>SISTACNA</h1>
+        <p>Panel de Pedidos</p>
+      </div>
+      <div class="mozo-login-form">
+        <div class="formulario-grupo">
+          <input type="email" class="campo-entrada" id="loginEmail" placeholder="Email" autocomplete="email">
+        </div>
+        <div class="formulario-grupo" style="position:relative;">
+          <input type="password" class="campo-entrada" id="loginPassword" placeholder="Contrasena" autocomplete="current-password">
+        </div>
+        <div id="loginError" class="mozo-login-error oculto"></div>
+        <button class="btn-exito mozo-login-btn" id="btnLogin" onclick="iniciarSesionMozo()">
+          <span id="loginBtnTexto">Ingresar</span>
+          <span id="loginSpinner" class="oculto">Ingresando...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL PRINCIPAL -->
+  <div class="mozo-panel oculto" id="mozoPanel">
+
+    <!-- HEADER -->
+    <header class="mozo-header">
+      <div class="mozo-header-izq">
+        <div class="logo-icono" style="width:32px;height:32px;font-size:0.9rem;">S</div>
+        <div>
+          <span class="mozo-nombre" id="mozoNombre">Mozo</span>
+          <select class="mozo-mesa-select" id="selectMesa">
+            <option value="">Seleccionar mesa</option>
+          </select>
+        </div>
+      </div>
+      <div class="mozo-header-der">
+        <button class="mozo-btn-pedido" id="btnVerPedido" onclick="togglePanelPedido()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="mozo-pedido-badge" id="pedidoBadge">0</span>
+        </button>
+        <button class="mozo-btn-salir" onclick="cerrarSesionMozo()" title="Cerrar sesion">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- TABS -->
+    <div class="mozo-tabs">
+      <button class="mozo-tab activo" data-tab="pedido" onclick="cambiarTab('pedido')">Nuevo Pedido</button>
+      <button class="mozo-tab" data-tab="comandas" onclick="cambiarTab('comandas')">Mis Comandas <span class="mozo-tab-badge oculto" id="comandasBadge">0</span></button>
+    </div>
+
+    <!-- TAB: NUEVO PEDIDO -->
+    <div class="mozo-contenido" id="tabPedido">
+      <div class="mozo-busqueda">
+        <svg class="busqueda-icono" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="campo-entrada mozo-busqueda-input" id="inputBusqueda" placeholder="Buscar platos...">
+      </div>
+
+      <div class="mozo-categorias" id="categorias"></div>
+
+      <div class="mozo-resultado" id="resultadoContador"></div>
+
+      <div class="mozo-grid" id="gridPlatos"></div>
+    </div>
+
+    <!-- TAB: MIS COMANDAS -->
+    <div class="mozo-contenido oculto" id="tabComandas">
+      <div class="mozo-comandas-lista" id="listaComandas"></div>
+    </div>
+
+    <!-- PANEL PEDIDO (Bottom Sheet) -->
+    <div class="mozo-pedido-panel oculto" id="panelPedido">
+      <div class="mozo-pedido-overlay" onclick="togglePanelPedido()"></div>
+      <div class="mozo-pedido-sheet">
+        <div class="mozo-pedido-header">
+          <h3>Mi Pedido</h3>
+          <button class="modal-cerrar" onclick="togglePanelPedido()">&times;</button>
+        </div>
+        <div class="mozo-pedido-items" id="pedidoItems"></div>
+        <div class="mozo-pedido-obs">
+          <input type="text" class="campo-entrada" id="inputObservaciones" placeholder="Observaciones generales...">
+        </div>
+        <div class="mozo-pedido-footer">
+          <button class="btn-exito mozo-btn-enviar" onclick="enviarComanda()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+            Enviar Comanda
+          </button>
+          <button class="btn-secundario btn-pequeno" onclick="vaciarPedido()">Vaciar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL PLATO -->
+    <div class="modal-overlay" id="modalPlato">
+      <div class="modal mozo-modal-plato">
+        <div class="modal-encabezado">
+          <h3 id="modalPlatoNombre">Plato</h3>
+          <button class="modal-cerrar" onclick="cerrarModalPlato()">&times;</button>
+        </div>
+        <div class="modal-cuerpo">
+          <p class="mozo-modal-desc" id="modalPlatoDescripcion"></p>
+          <div class="mozo-modal-precio">
+            <span>Precio:</span>
+            <span class="precio" id="modalPlatoPrecio">S/.0.00</span>
+          </div>
+          <div id="modalPlatoOpciones"></div>
+          <div id="modalPlatoGuarniciones" class="oculto">
+            <h4 class="modal-seccion-titulo">Guarniciones (max. 2)</h4>
+            <div id="listaGuarniciones"></div>
+          </div>
+          <div class="formulario-grupo">
+            <label>Observaciones del plato</label>
+            <textarea class="campo-entrada" id="inputObsPlato" placeholder="Ej: Sin cebolla, extra picante..." maxlength="200" rows="2"></textarea>
+          </div>
+          <div class="mozo-modal-cantidad">
+            <span>Cantidad:</span>
+            <div class="cantidad-control">
+              <button class="cantidad-btn" onclick="cambiarCantidadModal(-1)">-</button>
+              <span class="cantidad-valor" id="cantidadModal">1</span>
+              <button class="cantidad-btn" onclick="cambiarCantidadModal(1)">+</button>
+            </div>
+          </div>
+          <div class="mozo-modal-subtotal">
+            <span>Subtotal:</span>
+            <span class="precio precio-grande" id="modalSubtotal">S/.0.00</span>
+          </div>
+        </div>
+        <div class="modal-pie">
+          <button class="btn-secundario" onclick="cerrarModalPlato()">Cancelar</button>
+          <button class="btn-exito" onclick="agregarAlPedido()">Agregar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL IMPRESION -->
+    <div class="modal-overlay" id="modalImprimir">
+      <div class="modal mozo-modal-imprimir">
+        <div class="modal-encabezado">
+          <h3>Imprimir Comanda</h3>
+          <button class="modal-cerrar" onclick="cerrarModalImprimir()">&times;</button>
+        </div>
+        <div class="modal-cuerpo" style="text-align:center;">
+          <p style="margin-bottom:16px;">Comanda <strong id="imprimirNumero">#000</strong> enviada</p>
+          <div class="mozo-imprimir-opciones">
+            <button class="btn-exito" onclick="imprimirTicket('cocina')" style="width:100%;margin-bottom:8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Imprimir Cocina
+            </button>
+            <button class="btn-exito" onclick="imprimirTicket('bar')" style="width:100%;margin-bottom:8px;background:var(--dorado);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Imprimir Bar
+            </button>
+            <button class="btn-secundario" onclick="imprimirTicket('ambos')" style="width:100%;">Imprimir Ambos</button>
+          </div>
+        </div>
+        <div class="modal-pie">
+          <button class="btn-secundario" onclick="cerrarModalImprimir()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/mozo.js"></script>
+</body>
+</html>
