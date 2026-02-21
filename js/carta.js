@@ -24,9 +24,9 @@ function cargarMenu() {
 
 function renderizarCategorias() {
   const contenedor = DOM.obtener('#menuCategorias');
-  let html = '<button class="categoria-tab activo" data-categoria="todos">Todos</button>';
+  let html = '<button class="categoria-tab activo" data-categoria="todos"><span class="categoria-icono">🍽️</span> Todos</button>';
   datosMenu.categorias.forEach(cat => {
-    html += `<button class="categoria-tab" data-categoria="${cat.id}">${cat.nombre}</button>`;
+    html += `<button class="categoria-tab" data-categoria="${cat.id}"><span class="categoria-icono">${cat.icono || ''}</span> ${cat.nombre}</button>`;
   });
   contenedor.innerHTML = html;
 
@@ -67,7 +67,7 @@ function filtrarYRenderizar() {
     return coincideCategoria && coincideEstado && coincideBusqueda;
   });
 
-  DOM.obtener('#resultadoContador').textContent = `${platosFiltrados.length} platos`;
+  DOM.obtener('#resultadoContador').innerHTML = `<strong>${platosFiltrados.length}</strong> platos encontrados`;
   renderizarPlatos();
 }
 
@@ -92,13 +92,21 @@ function renderizarPlatos() {
   }
 }
 
+function obtenerNombreCategoria(categoriaId) {
+  if (!datosMenu || !datosMenu.categorias) return '';
+  const cat = datosMenu.categorias.find(c => c.id === categoriaId);
+  return cat ? cat.nombre : categoriaId;
+}
+
 function renderizarTarjeta(plato) {
   const etiquetasHTML = plato.etiquetas.map(et => {
     const clases = { nuevo: 'etiqueta-nuevo', popular: 'etiqueta-popular', '2x1': 'etiqueta-2x1', recomendado: 'etiqueta-recomendado' };
     return `<span class="etiqueta ${clases[et] || ''}">${et}</span>`;
   }).join('');
 
-  const agotadoClase = plato.estado === 'agotado' ? ' agotado' : '';
+  const esAgotado = plato.estado === 'agotado';
+  const agotadoClase = esAgotado ? ' agotado' : '';
+  const nombreCategoria = obtenerNombreCategoria(plato.categoria);
 
   return `
     <div class="plato-tarjeta${agotadoClase}" onclick="abrirModalPlato('${plato.id}')">
@@ -106,14 +114,17 @@ function renderizarTarjeta(plato) {
         <div class="galeria-placeholder">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
         </div>
-        <div class="plato-etiquetas">${etiquetasHTML}${plato.estado === 'agotado' ? '<span class="etiqueta etiqueta-agotado">Agotado</span>' : ''}</div>
+        <span class="plato-categoria-badge">${nombreCategoria}</span>
+        ${esAgotado ? '<span class="plato-agotado-overlay">✕ AGOTADO</span><div class="plato-agotado-banner">Temporalmente agotado</div>' : ''}
+        <div class="plato-etiquetas">${etiquetasHTML}</div>
       </div>
       <div class="plato-info">
         <h3 class="plato-nombre">${plato.nombre}</h3>
         <p class="plato-descripcion">${plato.descripcion}</p>
         <div class="plato-footer">
           <span class="plato-precio">${Formatos.formatearMoneda(plato.precio)}</span>
-          <button class="plato-btn-agregar">${plato.estado === 'agotado' ? 'Agotado' : 'Personalizar'}</button>
+          <button class="plato-btn-agregar">${esAgotado ? 'Agotado' : 'Personalizar'}</button>
+          ${esAgotado ? '' : '<button class="plato-btn-agregar-redondo">+</button>'}
         </div>
       </div>
     </div>`;
@@ -341,6 +352,8 @@ function guardarEnStorage() {
 function actualizarContadorCarrito() {
   const total = carrito.reduce((sum, item) => sum + item.cantidad, 0);
   DOM.obtener('#carritoContador').textContent = total;
+  const badgeFlotante = DOM.obtener('#carritoFlotanteBadge');
+  if (badgeFlotante) badgeFlotante.textContent = total;
 }
 
 function renderizarCarrito() {
