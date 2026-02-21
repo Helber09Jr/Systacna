@@ -1488,9 +1488,9 @@ function detenerListeners() {
 // INICIALIZACION
 // ============================================================================
 
-document.addEventListener('DOMContentLoaded', async () => {
-  // Inicializar Firebase (esperar a que persistence este lista)
-  const firebaseResult = await inicializarFirebase();
+document.addEventListener('DOMContentLoaded', () => {
+  // Inicializar Firebase
+  const firebaseResult = inicializarFirebase();
 
   if (!firebaseResult) {
     Notificaciones.error('Error al cargar Firebase. Verifica tu conexion.');
