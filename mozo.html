@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Panel de Mozo - SISTACNA Restaurante">
   <meta name="theme-color" content="#0052B4">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Mozo | SISTACNA</title>
   <link rel="manifest" href="PWA/manifest.json">
   <link rel="icon" type="image/png" href="imagenes/logos/favicon.png">
@@ -85,6 +87,24 @@
 
     <!-- TAB: MIS COMANDAS -->
     <div class="mozo-contenido oculto" id="tabComandas">
+      <div class="mis-comandas-stats">
+        <div class="mini-stat stat-pendiente">
+          <span class="mini-stat-num" id="statMisPendientes">0</span>
+          <span class="mini-stat-label">Pendientes</span>
+        </div>
+        <div class="mini-stat stat-preparando">
+          <span class="mini-stat-num" id="statMisPreparando">0</span>
+          <span class="mini-stat-label">Preparando</span>
+        </div>
+        <div class="mini-stat stat-listo">
+          <span class="mini-stat-num" id="statMisListos">0</span>
+          <span class="mini-stat-label">Listos</span>
+        </div>
+        <div class="mini-stat stat-entregado">
+          <span class="mini-stat-num" id="statMisEntregados">0</span>
+          <span class="mini-stat-label">Entregados</span>
+        </div>
+      </div>
       <div class="mozo-comandas-lista" id="listaComandas"></div>
     </div>
 
@@ -101,6 +121,10 @@
           <input type="text" class="campo-entrada" id="inputObservaciones" placeholder="Observaciones generales...">
         </div>
         <div class="mozo-pedido-footer">
+          <div class="mozo-pedido-total">
+            <span>Total (inc. IGV 18%)</span>
+            <span class="precio precio-grande" id="pedidoTotal">S/.0.00</span>
+          </div>
           <button class="btn-exito mozo-btn-enviar" onclick="enviarComanda()">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
             Enviar Comanda

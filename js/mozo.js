@@ -384,6 +384,7 @@ function agregarAlPedido() {
   });
 
   actualizarContadorPedido();
+  actualizarTotalPedido();
   cerrarModalPlato();
   Notificaciones.exito(`${platoActual.nombre} agregado`);
 }
@@ -409,6 +410,7 @@ function renderizarPedidoActual() {
 
   if (pedidoActual.length === 0) {
     contenedor.innerHTML = '<div class="mozo-pedido-vacio">Pedido vacio. Agrega platos desde la carta.</div>';
+    actualizarTotalPedido();
     return;
   }
 
@@ -435,6 +437,16 @@ function renderizarPedidoActual() {
         </span>
       </div>`;
   }).join('');
+
+  actualizarTotalPedido();
+}
+
+function actualizarTotalPedido() {
+  const subtotal = pedidoActual.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+  const igv = subtotal * DATOS_RESTAURANTE.igv;
+  const total = subtotal + igv;
+  const el = DOM.obtener('#pedidoTotal');
+  if (el) el.textContent = Formatos.formatearMoneda(total);
 }
 
 function cambiarCantidadPedido(idx, delta) {
@@ -707,8 +719,25 @@ function iniciarListenerComandas() {
     });
 }
 
+function actualizarStatsComandas(comandas) {
+  const pendientes = comandas.filter(c => c.estado === 'pendiente').length;
+  const preparando = comandas.filter(c => c.estado === 'preparando').length;
+  const listos = comandas.filter(c => c.estado === 'listo').length;
+  const entregados = comandas.filter(c => c.estado === 'entregado').length;
+
+  const elP = DOM.obtener('#statMisPendientes');
+  const elPr = DOM.obtener('#statMisPreparando');
+  const elL = DOM.obtener('#statMisListos');
+  const elE = DOM.obtener('#statMisEntregados');
+  if (elP) elP.textContent = pendientes;
+  if (elPr) elPr.textContent = preparando;
+  if (elL) elL.textContent = listos;
+  if (elE) elE.textContent = entregados;
+}
+
 function renderizarMisComandas(comandas) {
   const contenedor = DOM.obtener('#listaComandas');
+  actualizarStatsComandas(comandas);
 
   if (comandas.length === 0) {
     contenedor.innerHTML = `
@@ -721,12 +750,22 @@ function renderizarMisComandas(comandas) {
 
   contenedor.innerHTML = comandas.map(comanda => {
     const hora = comanda.fechaCreacion ? new Date(comanda.fechaCreacion.seconds * 1000).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' }) : '--:--';
-    const itemsResumen = comanda.items.map(i => `${i.cantidad}x ${i.nombre}`).join(', ');
+
+    const itemsHTML = (comanda.items || []).map(i => {
+      let detalle = `<strong>${i.cantidad}x</strong> ${i.nombre}`;
+      if (i.opciones && i.opciones.length > 0) {
+        detalle += ` <span style="color:var(--texto-secundario);font-size:0.7rem;">(${i.opciones.map(o => o.valor).join(', ')})</span>`;
+      }
+      return `<div style="font-size:0.8rem;margin-bottom:2px;">${detalle}</div>`;
+    }).join('');
+
+    const subtotal = (comanda.items || []).reduce((s, i) => s + (i.precio * i.cantidad), 0);
+    const total = subtotal + (subtotal * DATOS_RESTAURANTE.igv);
 
     const estadoTexto = {
       pendiente: 'Pendiente',
       preparando: 'Preparando',
-      listo: 'Listo',
+      listo: 'LISTO!',
       entregado: 'Entregado'
     };
 
@@ -734,7 +773,7 @@ function renderizarMisComandas(comandas) {
     if (comanda.estado === 'pendiente') {
       accionBtn = `<button class="mozo-comanda-btn-accion" onclick="cambiarEstadoComanda('${comanda.id}', 'preparando')">Enviar a Cocina</button>`;
     } else if (comanda.estado === 'listo') {
-      accionBtn = `<button class="mozo-comanda-btn-accion" onclick="cambiarEstadoComanda('${comanda.id}', 'entregado')">Entregar</button>`;
+      accionBtn = `<button class="mozo-comanda-btn-accion" style="background:var(--exito);" onclick="cambiarEstadoComanda('${comanda.id}', 'entregado')">Entregar al Cliente</button>`;
     }
 
     return `
@@ -745,8 +784,12 @@ function renderizarMisComandas(comandas) {
         </div>
         <div class="mozo-comanda-body">
           <div class="mozo-comanda-hora">${hora}</div>
-          <div class="mozo-comanda-items-resumen">${itemsResumen}</div>
+          ${itemsHTML}
+          <div style="display:flex;justify-content:flex-end;margin-top:6px;">
+            <span class="precio" style="font-size:0.9rem;">${Formatos.formatearMoneda(total)}</span>
+          </div>
         </div>
+        ${comanda.observaciones ? `<div style="padding:4px 12px 8px;font-size:0.75rem;color:var(--texto-secundario);font-style:italic;">${comanda.observaciones}</div>` : ''}
         <div class="mozo-comanda-acciones">
           ${accionBtn}
           <button class="mozo-comanda-btn-imprimir" onclick="reimprimirTicket('${comanda.id}')">Reimprimir</button>

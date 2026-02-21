@@ -720,6 +720,107 @@
 
 .guarnicion-item.seleccionado { border-color: var(--verde-acento); background: #f0fff4; }
 
+/* CANTIDAD BTN */
+.cantidad-btn {
+  width: 30px;
+  height: 30px;
+  background: var(--gris-claro);
+  border: 2px solid var(--gris-medio);
+  border-radius: var(--radio-redondo);
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transicion-rapida);
+  color: var(--texto-principal);
+}
+
+.cantidad-btn:active { background: var(--azul-principal); color: var(--blanco); border-color: var(--azul-principal); }
+
+.cantidad-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cantidad-valor {
+  font-size: 1rem;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+}
+
+.modal-seccion-titulo {
+  font-size: 0.9rem;
+  color: var(--azul-principal);
+  margin-bottom: 8px;
+  padding-top: 8px;
+}
+
+/* PEDIDO TOTAL */
+.mozo-pedido-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 2px solid var(--azul-principal);
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* MIS COMANDAS STATS */
+.mis-comandas-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.mini-stat {
+  background: var(--blanco);
+  border-radius: var(--radio-pequeno);
+  padding: 10px 6px;
+  text-align: center;
+  box-shadow: var(--sombra-suave);
+  border-top: 3px solid var(--gris-medio);
+}
+
+.mini-stat.stat-pendiente { border-top-color: #ff9800; }
+.mini-stat.stat-preparando { border-top-color: var(--azul-suave); }
+.mini-stat.stat-listo { border-top-color: var(--exito); }
+.mini-stat.stat-entregado { border-top-color: #9c27b0; }
+
+.mini-stat-num {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 800;
+  font-family: var(--fuente-titulos);
+  color: var(--negro);
+  line-height: 1;
+}
+
+.mini-stat-label {
+  font-size: 0.6rem;
+  color: var(--texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* LISTO NOTIFICATION PULSE */
+.mozo-comanda-card.estado-listo {
+  animation: pulseListo 2s ease-in-out infinite;
+}
+
+@keyframes pulseListo {
+  0%, 100% { box-shadow: var(--sombra-suave); }
+  50% { box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.3), var(--sombra-suave); }
+}
+
 /* PRINT STYLES - Ticket 80mm */
 @media print {
   body * { visibility: hidden; }
